@@ -1,0 +1,1282 @@
+---
+title: "The Unreasonable Effectiveness of Quarto"
+subtitle: "a Quarto theme"
+author: "John Paul Helveston"
+format:
+  lexis-revealjs:
+    css: custom.css
+    code-block-height: "660px"
+    include-after-body: widget-resize.html
+extensions:
+  iconify:
+    preload: iconify-preload.json
+mouse-wheel: true
+progress: false
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+library(dplyr)
+library(echarts4r)
+library(vehicletrends)
+library(crosstalk)
+library(plotly)
+library(DT)
+
+knitr::opts_chunk$set(
+  warning = FALSE,
+  message = FALSE,
+  fig.path = "figs/",
+  fig.width = 7.252,
+  fig.height = 4,
+  comment = "#>",
+  fig.retina = 3
+)
+
+sp <- function(gap = 2, unit = "em") {
+  sprintf('<div style="height: %s%s;"></div>', gap, unit)
+}
+```
+
+{{< bg-color "#2e4057" >}}
+{{< inverse >}}
+{{< center >}}
+{{< middle >}}
+{{< no-slide-number >}}
+
+# {{< quarto size=2x >}}
+
+<br>
+
+# {{< meta title >}}
+
+<br>
+
+[{{< meta author >}}]{.large}
+
+[posit::conf(2026)<br>Houston, TX]{.font120}
+
+---
+
+{{< bg-color "#2e4057" >}}
+{{< middle >}}
+{{< center >}}
+{{< inverse >}}
+
+# Handwriting practice sheets
+
+<center>
+<img src="images/handwriting.png" width=60%>
+</center>
+
+::: {.notes}
+
+This is a dashboard session, but we are starting with a handwriting worksheet. The worksheet is deliberately simple because it makes the underlying problem obvious.
+
+:::
+
+---
+
+{{< middle >}}
+{{< center >}}
+
+# Prompt:
+
+## *"Make a one-page handwriting practice sheet<br>with sentences about **pokemon**"*
+
+---
+
+{{< bg-color "#2e4057" >}}
+
+![](images/handwriting-practice-pokemon.png){fig-align="center" height="800"}
+
+---
+
+{{< bg-image "images/8-rounds-later.png" >}}
+{{< no-slide-number >}}
+
+---
+
+{{< bg-color "#2e4057" >}}
+
+![](images/handwriting-good-minecraft.png){fig-align="center" height="800"}
+
+---
+
+{{< center >}}
+
+# I want [**these**]{.contentchip} sentences with [**this**]{.formatchip} layout
+
+::: {.col .amberborder}
+![](images/handwriting-practice-pokemon.png){fig-align="center" height="600"}
+:::
+
+::: {.col .blueborder}
+![](images/handwriting-good-minecraft.png){fig-align="center" height="600"}
+:::
+
+---
+
+{{< center >}}
+{{< middle >}}
+
+# [Content]{.contentchip} entangled with [Format]{.formatchip}
+
+{{< include svg/entanglement-1.qmd >}}
+
+---
+
+{{< bg-color "#2e4057" >}}
+{{< inverse >}}
+{{< center >}}
+
+`r sp(6)`
+
+::: {.col width="10%"}
+:::
+
+::: {.col width="30%"}
+## {{< quarto size=6x >}}
+:::
+
+::: {.col width="60%"}
+`r sp(2.3)`
+
+# Quarto disentangles
+
+# [Content]{.contentchip} and [Format]{.formatchip}
+:::
+
+---
+
+{{< center >}}
+{{< middle >}}
+
+# Quarto disentangles [Content]{.contentchip .fragment .custom .turnsred data-fragment-index="3"} and [Format]{.formatchip}
+
+{{< include svg/entanglement-2.qmd >}}
+
+---
+
+# [Modularized content via parameters]{.center}
+
+:::: {.col width="58%"}
+[{{< quarto >}}]{.font120}
+
+[**handwriting-practice.qmd**]{.qmdblue .font120}
+
+(written by Claude Code)
+
+<br>
+
+::: {.font70}
+````{.markdown}
+---
+params:
+  data_file: "data/minecraft.csv"
+format: pdf
+---
+
+```{{r}}
+sentences <- read.csv(params$data_file)$sentence
+for (s in sentences) {
+  cat(sprintf("\\practiceblock{%s}\n\n", s))
+}
+```
+````
+:::
+::::
+
+:::: {.col width="42%"}
+[{{< fa file-csv >}}]{.red .font120}
+
+[**minecraft.csv**]{.red .font120}
+
+(written by Me)
+
+<br>
+
+:::{.font70}
+|sentence |
+|-----|
+|Minecraft is a popular building game.|
+|Players mine for resources underground.|
+|You can build almost anything you want.|
+|Creepers are sneaky and dangerous enemies.|
+|Diamonds are the best ore to find.|
+|Players must survive through the first night.|
+|The Nether is a hot and scary place.|
+:::
+
+::::
+
+---
+
+{{< center >}}
+
+{{< include svg/params.qmd >}}
+
+::: {.col .center}
+![](images/handwriting-good-pokemon.png){fig-align="center" height="470"}
+:::
+
+::: {.col .center}
+![](images/handwriting-good-minecraft.png){fig-align="center" height="470"}
+:::
+
+---
+
+{{< bg-color "#2e4057" >}}
+{{< inverse >}}
+
+`r sp(6)`
+
+::: {.col width="50%" .center}
+`r sp(0.5)`
+# {{< quarto size=5x >}}
+:::
+
+::: {.col width="50%" .center}
+<img src="images/ai-chip.png" width=55%>
+:::
+
+---
+
+{{< bg-image "images/epic-dashboards.png" size="contain" >}}
+
+---
+
+{{< bg-color "#000000" >}}
+{{< middle >}}
+{{< center >}}
+
+<br>
+![](images/vehicletrends.gif){fig-align="center" width=100%}
+
+---
+
+{{< center >}}
+{{< middle >}}
+
+{{< include svg/dashboard.qmd >}}
+
+---
+
+{{< middle >}}
+
+::: {.col width="40%"}
+{{< include svg/qmd-stack.qmd >}}
+:::
+
+::: {.col width="50%" valign="middle" .fragment}
+### [_quarto.yml]{.formatchip}
+
+```yaml
+project:
+  type: website
+
+website:
+  sidebar:
+    contents:
+      - about.qmd
+      - vmt-daily.qmd
+      - vmt-age.qmd
+      - depreciation.qmd
+      - ...
+```
+:::
+
+---
+
+{{< middle >}}
+
+::: {.col width="40%"}
+{{< include svg/qmd-stack.qmd >}}
+:::
+
+::: {.col width="50%" valign="middle"}
+### [_quarto.yml]{.formatchip}
+
+```yaml
+project:
+  type: website
+
+website:
+  sidebar:
+    contents:
+      - about.qmd
+      - vmt-daily.qmd
+      - vmt-age.qmd
+      - depreciation.qmd
+      - ...
+```
+
+<br>
+
+### [Charts built with {vehicletrends}]{.contentchip}
+:::
+
+---
+
+{{< middle >}}
+
+::: {.col width="40%" .font130}
+<br>
+
+## A cohesive framework:
+
+→ URLs to each page<br>
+→ URLs to each header<br>
+→ Navigation<br>
+→ Consistent layout<br>
+→ Easy deployment
+
+:::
+
+::: {.col width="50%"}
+
+### [_quarto.yml]{.formatchip}
+
+```yaml
+project:
+  type: website
+
+website:
+  sidebar:
+    contents:
+      - about.qmd
+      - vmt-daily.qmd
+      - vmt-age.qmd
+      - depreciation.qmd
+      - ...
+```
+
+<br>
+
+### [Charts built with {vehicletrends}]{.contentchip}
+:::
+
+---
+
+{{< center >}}
+{{< middle >}}
+
+{{< include svg/dashboard-agent.qmd >}}
+
+---
+
+{{< bg-color "#2e4057" >}}
+{{< inverse >}}
+{{< center >}}
+
+::: {.col width="10%"}
+:::
+
+::: {.col width="40%"}
+`r sp(6)`
+
+## {{< quarto size=6x >}}
+:::
+
+::: {.col width="50%"}
+`r sp(5)`
+
+# [Modularity]{.font150}
+
+# [Efficiency]{.font150 .qmdlightblue}
+
+# [Correctness]{.font150 .qmdlightblue}
+:::
+
+---
+
+{{< middle >}}
+
+:::: {.canvashead}
+::: {.center .fragment .fade-out data-fragment-index="1"}
+# Each page is its own canvas<br>
+:::
+
+::: {.center .fragment data-fragment-index="1"}
+# Code chunks are all you need {.contentchip}
+:::
+::::
+
+{{< include svg/canvas.qmd >}}
+
+---
+
+::: {.canvasbanner}
+Things to put in the canvas
+:::
+
+`r sp(1)`
+
+# [JavaScript graphics via [{{< fa brands r-project >}}]{.blue} or [{{< fa brands python >}}]{.yellow} packages]{.center}
+
+::: {.col width="50%"}
+[**R**]{.blue} via {echarts4r}
+
+::: {.font70}
+```r
+vehicles |>
+  group_by(vehicle_type) |>
+  e_charts(year) |>
+  e_scatter(avg_price)
+```
+:::
+
+[**Python**]{.yellow} via {plotly}
+
+::: {.font70}
+```python
+px.scatter(
+  vehicles,
+  x = "year",
+  y = "avg_price",
+  color = "vehicle_type"
+)
+```
+:::
+:::
+
+::: {.col width="50%"}
+```{r}
+vehicles <- price_trends_used |>
+  filter(vehicle_type %in% c("car", "suv", "pickup"), year <= 2025) |>
+  group_by(vehicle_type, year) |>
+  summarise(
+    avg_price = weighted.mean(avg_price, n_listings),
+    .groups = "drop"
+  ) |>
+  group_by(vehicle_type)
+
+vehicles |>
+  # Square canvas, set explicitly rather than left to the column width, so the
+  # aspect ratio doesn't move if the 60/40 split ever changes. 560 is what
+  # fits under the title on a 900px slide.
+  e_charts(year, width = "600px", height = "560px") |>
+  e_scatter(avg_price, symbol_size = 9) |>
+  # `background` is e_color's second argument, and it sets echarts' top-level
+  # backgroundColor. The canvas is transparent by default, so the chart sat
+  # straight on the slide's grey; white matches the plotly and Plot panels on
+  # the next two slides.
+  e_color(c("#00798c", "#A77400", "#d1495b"), background = "#FFFFFF") |>
+  e_legend(bottom = 0, textStyle = list(fontSize = 16)) |>
+  e_tooltip() |>
+  # scale = TRUE drops echarts' default "always include zero" on a value axis,
+  # which otherwise parks the whole cloud in the top-right corner. boundaryGap
+  # then pads the data range by 5% so the points don't touch the frame.
+  e_x_axis(
+    name = "Model year",
+    scale = TRUE,
+    boundaryGap = c("5%", "5%")
+  ) |>
+  e_y_axis(
+    name = "Average price (USD)",
+    nameLocation = "middle",
+    nameGap = 45,
+    scale = TRUE,
+    boundaryGap = c("5%", "5%")
+  ) |>
+  e_grid(left = 80, right = 30, top = 20, bottom = 80)
+```
+:::
+
+::: {.notes}
+
+"The page doesn't care which visualization library I'm using."
+
+:::
+
+---
+
+::: {.canvasbanner}
+Things to put in the canvas
+:::
+
+`r sp(1)`
+
+## [Widgets that talk to each other:<br>`crosstalk` + `plotly`, or `ojs`]{.center}
+
+::: {.font55}
+```{r}
+# Two plots over one SharedData, with a dropdown and a slider above them, so the
+# slide reads as a small app rather than as two widgets that happen to share a
+# page. The table this replaced made the same crosstalk point but looked like a
+# report; a second plot makes the linking visible, because a selection in one
+# panel is legible in the other.
+#
+# `dragmode = "select"` matters on stage: without it a drag pans the plot and the
+# audience never sees the link unless you first find the box-select button in the
+# modebar. With it, drag a box and both panels respond.
+veh <- price_trends_used |>
+  filter(vehicle_type %in% c("car", "suv", "pickup"), year <= 2025) |>
+  group_by(vehicle_type, year) |>
+  summarise(
+    avg_price = weighted.mean(avg_price, n_listings),
+    n_listings = sum(n_listings),
+    .groups = "drop"
+  )
+shared <- SharedData$new(veh)
+
+pal <- c("#00798c", "#A77400", "#d1495b")
+
+panel <- function(x, y, xlab, ylab) {
+  plot_ly(
+    shared,
+    x = x,
+    y = y,
+    color = ~vehicle_type,
+    colors = pal,
+    type = "scatter",
+    mode = "markers",
+    marker = list(size = 8, opacity = 0.8),
+    # Both dimensions in pixels, on purpose. Left to autosize, plotly measures
+    # its container at document-ready -- which on a reveal deck is while the
+    # slide is still `display: none`, so it lays out against a garbage width and
+    # draws a plot far bigger than the box, with the points off-screen and no
+    # x-axis in view. A fixed size cannot be measured wrong. 500 x 460 is what
+    # two panels plus the control rail fit into 1420px of usable slide width.
+    width = 500,
+    height = 460
+  ) |>
+    layout(
+      showlegend = FALSE,
+      dragmode = "select",
+      xaxis = list(title = xlab),
+      yaxis = list(title = ylab),
+      margin = list(l = 60, r = 10, t = 10, b = 50)
+    ) |>
+    highlight(
+      on = "plotly_selected",
+      off = "plotly_deselect",
+      color = "#2e4057"
+    )
+}
+
+# Every width here is fixed in pixels rather than a percentage. Percentages
+# resolve against a container that reveal has not laid out yet on the first
+# visit to the slide, and a flex item with no `min-width: 0` cannot shrink below
+# its content -- so one mis-measured panel used to take the whole row and squeeze
+# the other one to nothing. 300 + 500 + 500 plus the two gaps fits the 1420px of
+# usable slide width with room to spare.
+htmltools::div(
+  style = "display:flex; gap:1.6rem; align-items:flex-start; justify-content:center;",
+
+  # Controls stacked in their own left column, slider over dropdown. Stacking
+  # them beside the plots instead of above is what makes the slide read as an
+  # app: a control rail is the shape people recognise, and it buys the plots
+  # enough height to come out roughly square.
+  htmltools::div(
+    style = "flex:0 0 300px; min-width:0; padding-top:0.6rem;",
+    filter_slider(
+      "year",
+      "Model year",
+      shared,
+      ~year,
+      width = "100%"
+    ),
+    htmltools::div(
+      style = "margin-top:1.2rem;",
+      filter_select("vt", "Vehicle type", shared, ~vehicle_type)
+    )
+  ),
+
+  htmltools::div(
+    style = "flex:0 0 auto; display:flex; gap:1.2rem;",
+    htmltools::div(
+      style = "flex:0 0 500px; min-width:0;",
+      panel(
+        ~year,
+        ~avg_price,
+        "Model year",
+        "Average price (USD)"
+      )
+    ),
+    htmltools::div(
+      style = "flex:0 0 500px; min-width:0;",
+      panel(
+        ~year,
+        ~n_listings,
+        "Model year",
+        "Number of listings"
+      )
+    )
+  )
+)
+```
+:::
+
+::: {.notes}
+
+The important point is composition: widgets can remain independent components and still communicate. Quarto provides the page that contains them.
+
+:::
+
+---
+
+::: {.canvasbanner}
+Things to put in the canvas
+:::
+
+`r sp(1)`
+
+::: {style="text-align: center;"}
+[Put &zwj;]{.fira style="font-size: 2.5em; vertical-align: middle;"} ![](images/shiny.png){width=10% style="vertical-align: middle; margin-left: 0.4em;"} [&zwj; in a box!]{.fira style="font-size: 2.5em; vertical-align: middle;"}
+:::
+
+`r sp(1)`
+
+::: {.col width="35%"}
+[**Shinylive** -- no server]{.blue}
+
+::: {.font90}
+````markdown
+```{shinylive-r}
+#| standalone: true
+#| viewerHeight: 800
+
+# <Shiny app code>
+```
+````
+:::
+:::
+
+::: {.col width="65%"}
+[**A real Shiny server**]{.red}
+
+::: {.font80}
+````markdown
+```{{r}}
+htmltools::tags$iframe(
+  src    = "https://app.share.connect.posit.cloud/",
+  height = "700px",
+  width  = "100%",
+  style  = "border: none;"
+)
+```
+````
+:::
+:::
+
+::: {.notes}
+
+Shiny shows how far the canvas can stretch. 
+
+"At the extreme, the thing inside the canvas can itself be a complete application, whether it runs through shinylive or a Shiny server"
+
+:::
+
+---
+
+::: {.canvasbanner}
+Things to put in the canvas
+:::
+
+`r sp(1)`
+
+# [Put any widget in a box!]{.center}
+
+::: {.col width="58%" .font80}
+<center>
+```{r}
+# `data-src`, not `src`. Reveal keeps every non-current slide at `display: none`,
+# so an iframe with a real `src` loads into a zero-size box and MapLibre sizes
+# its canvas to nothing -- which is why the map only looked right after a manual
+# refresh. Reveal handles `data-src` natively: it swaps in the real src at the
+# moment the slide becomes current, when the box finally has dimensions.
+# Cost of the fix: leaving the slide unloads the iframe, so coming back re-inits
+# the map. That takes a second and it comes back correct, which is the trade.
+htmltools::tags$iframe(
+  `data-src` = "https://vehicletrends.github.io/hhi-map/",
+  height = "500px",
+  width = "900px",
+  style = "border: none;"
+)
+```
+</center>
+:::
+
+::: {.col width="42%"}
+
+- **276 lines** of hand-written MapLibre 
+- **1.64 GB** of tiles built with `{pmtiles}` (thanks [Kyle Walker](https://walker-data.com/)!)
+- Lives in it's [own repo](https://github.com/vehicletrends/hhi-map) 
+- Hosted on [GitHub pages](https://vehicletrends.github.io/hhi-map/)
+:::
+
+---
+
+{{< bg-color "#000000" >}}
+{{< middle >}}
+{{< center >}}
+
+<br>
+![](images/vehicletrends.gif){fig-align="center" width=100%}
+
+---
+
+{{< inverse >}}
+{{< inverse >}}
+{{< center >}}
+
+::: {.col width="50%"}
+
+![](images/hex-vehicletrends.png){fig-align="center" height=300px}
+
+#### [vehicletrends]{.center}
+
+![](images/qr-vehicletrends.png){fig-align="center" width=50%}
+
+:::
+
+::: {.col width="50%"}
+
+![](images/hex-penguins.png){fig-align="center" height=300px}
+
+#### [penguins dashboard]{.center}
+
+![](images/qr-penguins.png){fig-align="center" width=50%}
+
+:::
+
+---
+
+{{< bg-color "#2e4057" >}}
+{{< inverse >}}
+{{< center >}}
+
+::: {.col width="10%"}
+:::
+
+::: {.col width="40%"}
+`r sp(6)`
+
+## {{< quarto size=6x >}}
+:::
+
+::: {.col width="50%"}
+`r sp(5)`
+
+# [Modularity]{.font150 .qmdlightblue}
+
+# [Efficiency]{.font150}
+
+# [Correctness]{.font150 .qmdlightblue}
+:::
+
+---
+
+{{< center >}}
+{{< middle >}}
+
+```{=html}
+<div style="max-width: 72%; margin: 0 auto; padding: 1.2em 2em;
+            background: #FFFFFF; border: 2px solid #2e4057; border-radius: 6px;
+            font-family: Georgia, 'Times New Roman', serif; color: #2e4057;
+            text-align: left;">
+  <div style="font-size: 1.6em; font-weight: 700; margin-bottom: 0.4em;">EV Sales</div>
+  <div style="font-size: 1.2em; line-height: 1.4;">Sales of <strong>electric
+  vehicles</strong> grew 20% in 2025, reaching over <em>20 million</em> sales
+  globally.</div>
+</div>
+```
+
+::: {.notes}
+
+Now pivot from "what can the canvas contain?" to "why does this architecture matter for an AI agent?" Introduce the source-versus-rendered-artifact comparison.
+
+:::
+
+---
+
+```{=html}
+<div style="max-width: 52%; margin: 0 auto 0.5em auto; padding: 0.5em 1em;
+            background: #FFFFFF; border: 2px solid #2e4057; border-radius: 6px;
+            font-family: Georgia, 'Times New Roman', serif; color: #2e4057;
+            text-align: left;">
+  <div style="font-size: 0.8em; font-weight: 700; margin-bottom: 0.2em;">EV Sales</div>
+  <div style="font-size: 0.6em; line-height: 1.3;">Sales of <strong>electric
+  vehicles</strong> grew 20% in 2025, reaching over <em>20 million</em> sales
+  globally.</div>
+</div>
+```
+
+`r sp(0.2)`
+<hr>
+
+:::: {.col .fragment width="30%"}
+{{< quarto size=2x >}}
+
+[**Quarto**]{.qmdblue} (`.qmd`)
+
+::: {.font45}
+````markdown
+---
+format: pdf
+---
+
+## EV Sales
+
+Sales of **electric vehicles** grew
+20% in 2025, reaching over
+_20 million_ sales globally.
+````
+:::
+
+[**125** characters]{.qmdblue .font140}
+::::
+
+:::: {.col .fragment width="30%"}
+[{{< fa file-pdf size=2x >}}]{.amber}
+
+[**PDF**]{.amber} (via LaTeX)
+
+::: {.font45}
+```latex
+\documentclass{article}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\geometry{margin=1in}
+
+\begin{document}
+
+\section*{EV Sales}
+
+Sales of \textbf{electric vehicles} grew
+20\% in 2025, reaching over
+\emph{20 million} sales globally.
+
+\end{document}
+```
+:::
+
+[**252** characters]{.amber .font140}
+::::
+
+:::: {.col .fragment width="40%"}
+[{{< fa brands html5 size=2x >}}]{.red}
+
+[**HTML**]{.red}
+
+::: {.font45}
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>EV Sales</title>
+<style>
+body { font-family: Georgia, serif;
+       max-width: 40em; margin: 3em auto; }
+h2 { font-size: 1.6em; }
+</style>
+</head>
+<body>
+<h2>EV Sales</h2>
+<p>Sales of <strong>electric vehicles</strong> grew
+20% in 2025, reaching over <em>20 million</em>
+sales globally.</p>
+</body>
+</html>
+```
+:::
+
+[**377** characters]{.red .font140}
+::::
+
+::: {.notes}
+
+:::
+
+---
+
+```{=html}
+<div style="max-width: 52%; margin: 0 auto 0.5em auto; padding: 0.5em 1em;
+            background: #FFFFFF; border: 2px solid #2e4057; border-radius: 6px;
+            font-family: Georgia, 'Times New Roman', serif; color: #2e4057;
+            text-align: left;">
+  <div style="font-size: 0.8em; font-weight: 700; margin-bottom: 0.2em;">EV Sales</div>
+  <div style="font-size: 0.6em; line-height: 1.3;">Sales of <strong>electric
+  vehicles</strong> grew 20% in 2025, reaching over <em>20 million</em> sales
+  globally.</div>
+</div>
+```
+
+`r sp(0.2)`
+<hr>
+
+::: {.col width="20%"}
+:::
+
+::: {.col width="60%"}
+[{{< fa file-word size=2x >}}]{.wordblue}
+
+[**Word**]{.wordblue} (`word/document.xml`)
+
+::: {.font50}
+```xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/
+                     wordprocessingml/2006/main">
+  <w:body>
+    <w:p>
+      <w:pPr><w:pStyle w:val="Heading2"/></w:pPr>
+      <w:r><w:t>EV Sales</w:t></w:r>
+    </w:p>
+    <w:p>
+      <w:r><w:t xml:space="preserve">Sales of </w:t></w:r>
+      <w:r><w:rPr><w:b/></w:rPr><w:t>electric vehicles</w:t></w:r>
+      <w:r><w:t xml:space="preserve"> grew 20% in 2025, reaching over </w:t></w:r>
+      <w:r><w:rPr><w:i/></w:rPr><w:t>20 million</w:t></w:r>
+      <w:r><w:t xml:space="preserve"> sales globally.</w:t></w:r>
+    </w:p>
+  </w:body>
+</w:document>
+```
+:::
+
+[**663** characters 😱]{.wordblue .font140} 
+:::
+
+::: {.notes}
+
+:::
+
+---
+
+{{< center >}}
+{{< middle >}}
+
+{{< include svg/experiment.qmd >}}
+
+::: {.notes}
+
+Use the experiment as evidence for the broader claim: the same underlying content can
+explode into much larger rendered representations. Source is the compact interface.
+
+:::
+
+---
+
+{{< inverse >}}
+{{< center >}}
+{{< middle >}}
+
+<center>
+<img src="images/fig-tokens.png" width=100%>
+</center>
+
+::: {.notes}
+
+This is the empirical punchline of the token section. Smaller source representations mean
+less context to move around and reason about.
+
+:::
+
+---
+
+{{< bg-color "#000000" >}}
+{{< center >}}
+
+<center>
+<img src="images/its-all-markdown.png" width=100%>
+</center>
+
+---
+
+# [Small pieces have *small context windows*]{.center}
+
+::: {.col width="44%"}
+<pre class="specimen treecard">
+<span>vehicletrends.us/            lines</span>
+<span class="sp-dim">├── index.qmd                    7</span>
+<span class="sp-dim">├── about.qmd                  101</span>
+<span class="sp-dim">├── vmt-daily.qmd              216</span>
+<span class="sp-dim">├── vmt-age.qmd                351</span>
+<span class="sp-hit">├── depreciation.qmd           324</span>
+<span class="sp-dim">├── percent-listings.qmd       620</span>
+<span class="sp-dim">├── percent-dealers.qmd        199</span>
+<span class="sp-dim">├── market-concentration.qmd   292</span>
+<span class="sp-dim">├── hhi-explained.qmd          331</span>
+<span class="sp-dim">├── registrations.qmd          349</span>
+<span class="sp-dim">├── nearest-vehicles.qmd        34</span>
+<span class="sp-dim">├── tech-stack.qmd              60</span>
+<span class="sp-dim">├── cite.qmd                    50</span>
+<span class="sp-dim">├── LICENSE.qmd                 26</span>
+<span class="sp-dim">└── 404.qmd                     21</span>
+</pre>
+:::
+
+::: {.col width="56%"}
+[**`depreciation.qmd`**]{.red .font120}
+
+<pre class="specimen diffcard">
+<span>  ## Depreciation by body style</span>
+<span> </span>
+<span>  Used trucks hold their value better</span>
+<span class="sp-del">- than any other body style.</span>
+<span class="sp-add">+ than any other body style, and the</span>
+<span class="sp-add">+ gap has widened every year since 2022.</span>
+</pre>
+:::
+
+---
+
+{{< center >}}
+
+# [Small pieces have *less to agree upon*]{.center}
+
+::: {.col .center}
+
+<center>
+<img src="images/shiny.png" width=30%>
+</center>
+
+### The **input** that defines it
+
+### The **output** that consumes it
+
+### The **reactive** that connects them
+:::
+
+::: {.col .center}
+
+# {{< quarto size=3x >}}
+
+<br>
+
+### The **code chunk**
+
+:::
+
+---
+
+{{< bg-color "#2e4057" >}}
+{{< inverse >}}
+{{< center >}}
+
+::: {.col width="10%"}
+:::
+
+::: {.col width="40%"}
+`r sp(6)`
+
+## {{< quarto size=6x >}}
+:::
+
+::: {.col width="50%"}
+`r sp(5)`
+
+# [Modularity]{.font150 .qmdlightblue}
+
+# [Efficiency]{.font150 .qmdlightblue}
+
+# [Correctness]{.font150}
+:::
+
+---
+
+{{< inverse >}}
+{{< center >}}
+{{< middle >}}
+
+<center>
+<img src="images/africa-bad.png" height="600">
+
+[Source: [BBC](https://www.bbc.com/news/articles/c89n0xykw2go)]{.small}
+</center>
+
+---
+
+{{< inverse >}}
+{{< center >}}
+{{< tight >}}
+
+# There is no version that throws an error
+
+<center>
+<img src="images/africa-bad.png" height="600">
+
+[Source: [BBC](https://www.bbc.com/news/articles/c89n0xykw2go)]{.small}
+</center>
+
+---
+
+# [Same map from source]{.center}
+
+::: {.col width="55%" .font45}
+
+```{r}
+#| file: africa-map.R
+#| eval: false
+#| echo: true
+```
+
+:::
+
+::: {.col width="45%"}
+<center>
+<img src="images/africa-map.png" height="620">
+</center>
+:::
+
+---
+
+# [Architect robustness into the workflow]{.center}
+
+::: {.notes}
+
+The key idea: we don't have to make the AI perfectly reliable.
+
+Instead, we can **architect robustness into the workflow**.
+
+The AI writes the source, and then deterministic tools and human checks sit downstream of it.
+
+The stack on the left is the workflow. On the right, each click shows what that step buys us.
+
+:::
+
+{{< include svg/robustness.qmd >}}
+
+::: {.notes}
+
+**AI writes the source:** I am not asking the model for a PDF or dashboard. I am asking for source code—the thing we can inspect, execute, test, and regenerate.
+
+**Quarto executes it:** `quarto render` actually runs the source. If something is broken, it fails loudly rather than handing us a polished-looking artifact. This isn't unique to Quarto, but Quarto gives us a very clean test: does the document render?
+
+**GitHub tests it:** GitHub Actions can render the project on every commit. We don't have to remember to run the test.
+
+**Git shows you what changed:** Because the source is plain text, I can inspect exactly what the model changed. I don't have to visually inspect an entire regenerated artifact. This connects directly to "ask the AI for the source, not the artifact."
+
+**R computes the numbers:** Don't ask the model to write numbers that can be computed. Inline R means the number comes from the data at render time.
+
+**Close:** None of this makes the AI perfect. The goal is to build a workflow where the AI doesn't have to be perfect. We put deterministic execution, automated testing, human-readable diffs, and computed content downstream of a probabilistic model. That is what I mean by **architecting robustness into the workflow**.
+
+:::
+
+---
+
+{{< bg-color "#2e4057" >}}
+{{< inverse >}}
+{{< center >}}
+
+::: {.col width="10%"}
+:::
+
+::: {.col width="40%"}
+`r sp(6)`
+
+## {{< quarto size=6x >}}
+:::
+
+::: {.col width="50%"}
+`r sp(5)`
+
+# [Modularity]{.font150}
+
+# [Efficiency]{.font150}
+
+# [Correctness]{.font150}
+:::
+
+---
+
+{{< bg-color "#2e4057" >}}
+{{< inverse >}}
+{{< center >}}
+
+::: {.col width="10%"}
+:::
+
+::: {.col width="35%"}
+`r sp(6)`
+
+## {{< quarto size=6x >}}
+:::
+
+::: {.col width="55%"}
+`r sp(6.8)`
+
+# ["{{< meta title >}}"]{.font120}
+:::
+
+---
+
+{{< bg-color "#2e4057" >}}
+{{< inverse >}}
+{{< center >}}
+
+`r sp(6)`
+
+::: {.col width="10%"}
+:::
+
+::: {.col width="35%"}
+## {{< quarto size=6x >}}
+:::
+
+::: {.col width="55%"}
+`r sp(2.4)`
+
+# [Quarto wasn't<br>built for AI!]{.font120}
+:::
+
+::: {.notes}
+Quarto was built around reproducible, executable, composable source. Those properties were
+not designed for AI agents, but they turn out to be exactly the properties that make an AI
+workflow tractable and trustworthy.
+:::
+
+---
+
+{{< bg-color "#2e4057" >}}
+{{< inverse >}}
+{{< center >}}
+{{< middle >}}
+{{< no-slide-number >}}
+
+::: {.col width="33%"}
+
+`r sp(5)`
+
+#### [vehicletrends]{.center}
+
+![](images/qr-vehicletrends.png){fig-align="center" width=50%}
+
+:::
+
+::: {.col width="33%" .center}
+
+# {{< quarto size=2x >}}
+
+<br>
+
+# Thanks!
+
+<br>
+
+jhelvy.com {{< fa globe >}}
+
+jph@gwu.edu {{< fa paper-plane >}}
+
+@jhelvy {{< fa brands github >}}
+
+:::
+
+::: {.col width="33%"}
+
+`r sp(5)`
+
+#### [penguins dashboard]{.center}
+
+![](images/qr-penguins.png){fig-align="center" width=50%}
+
+:::

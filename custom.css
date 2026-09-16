@@ -1,0 +1,698 @@
+/* Deck-specific additions on top of the lexis theme.
+
+   ── THE PALETTE ────────────────────────────────────────────────────────────
+   Every color in this talk comes from `ltc::ltc("minou")`, so the slides, the
+   entanglement figure, and the plots in `plots.R` are one palette:
+
+     #edae49  yellow  CONTENT / data      #d1495b  red    CHANGED content
+     #00798c  teal    FORMAT / structure  #2e4057  navy   ink — strokes, labels
+     #66a182  green   VERDICT (run-3 check)  #8d96a3  grey   SPINE, already earned
+
+   Plus ONE deliberate outsider:
+
+     #852f88  purple  YOUR DIRECT ACTION — the `you edit directly` arrow
+
+   Purple is from `ltc("hat")`, not minou, and it is the only colour in the deck
+   that isn't. It earns the exception: it must be the thing your eye goes to,
+   and minou has nothing left that can do that. It sits at hue 306, the one
+   region minou leaves empty (its nearest neighbour is 59 deg away), at chroma
+   62 and 7.6:1 on white — the most saturated thing on any slide.
+
+   This replaced a green (#4A6D5A) that John found too easy to miss, and he was
+   right for a measurable reason: that green sat at **chroma 20 against navy's
+   21**. Same saturation, similar darkness — so it read as just another
+   structural line rather than as the one line that is YOU. When picking an
+   accent, chroma is the axis that matters, not hue.
+
+   GREEN IS NOW RETIRED from the deck. It was "your direct action" (now purple)
+   and minecraft on the payoff slide (now red). `.green` still resolves, but
+   nothing uses it — if you reach for it, check you don't mean purple or red.
+
+   minou was chosen over paloma because it is the only ltc palette that covers
+   all six roles at once. Content vs. format is the load-bearing pair and these
+   two are 163 deg apart in hue and stay distinct under red-green colorblindness
+   (#D4C04C vs #5B698C) — paloma has no blue at all, so once yellow/green/red
+   were spoken for by pokemon/minecraft/mario the only format colors left sat
+   within 25 deg of the content yellow.
+
+   ── FILL vs. INK ───────────────────────────────────────────────────────────
+   minou's yellow and green are light (lightness 75 and 62). They work as FILLS
+   with dark text on them, but as text or thin strokes on a light slide they
+   are 1.6:1 and 2.5:1 — invisible from the back of a room. So each has a
+   darker INK variant, same hue, used wherever the color has to be a line or a
+   letter rather than a block:
+
+     yellow  fill #edae49   ink #A77400     (both read as "the yellow one")
+     green   fill #66a182   ink #4A6D5A
+
+   Teal and red are dark enough to serve as both, so they have no ink variant.
+   Consequence inside the figure: text on a teal band is white, text on a
+   yellow or green band is navy. That is forced by legibility, not taste.
+   Red takes either (4.4:1 white, 4.3:1 navy), so it is the one place the
+   choice is editorial — see the figure's click-3 block. */
+
+/* The talk's semantic colors. `.amber` is ours; the rest override lexis's
+   defaults (#007bff / #E74A2F / #38B44A) so a `[word]{.blue}` on a slide is
+   the same teal as the format band in the figure. Same specificity as lexis's
+   own rules, and custom.css loads after the theme, so these win. */
+.reveal .amber { color: #A77400; }
+.reveal .blue  { color: #00798c; }
+.reveal .red   { color: #d1495b; }
+.reveal .green { color: #4A6D5A; }
+
+/* ── THE COST RAMP ──────────────────────────────────────────────────────────
+   The four cost slides (one paragraph / three sources, then Word, then the
+   experiment figure) colour each format by its identity, not by the
+   content/format vocabulary: Quarto blue, PDF amber, HTML red, Word blue.
+   Red used to carry both HTML and Word, which made the two most expensive
+   columns look like one thing.
+
+   `.qmdblue` is Quarto's own blue. The brand value #74aadb is what the
+   `quarto` shortcode paints its icon, and it is 2.5:1 on white — same
+   fill-vs-ink problem the yellow has, so the icon wears the brand value and
+   every letter wears this darker twin (4.3:1, same hue).
+
+   `.wordblue` is Word's blue. It is 12 deg from the Quarto blue in hue, so
+   what separates the two columns is lightness plus the icon and the file
+   extension beside it — not hue. It clears the deck's navy ink on chroma
+   (0.12 vs 0.046), which is the axis that matters here.
+
+   Scoped to the cost slides on purpose. Everywhere else `[word]{.blue}` is
+   still the figure's teal, because there teal means FORMAT, not Quarto. */
+.reveal .qmdblue  { color: #3d7fb5; }
+.reveal .qmdlightblue  { color: #74AADB; }
+.reveal .wordblue { color: #2B579A; }
+
+/* ── CHIPS ──────────────────────────────────────────────────────────────────
+   The two slides before the entanglement figure exist to teach its color
+   vocabulary, so the word has to be the same visual object the figure shows —
+   not merely the same hue. A chip IS the figure's `content` / `yaml` band:
+   same fill, same text color, same relationship. Colored *text* can't do that
+   job here, because #edae49 as a letter on a light slide is 1.6:1.
+
+   Only for the standalone vocabulary words. Longer phrases elsewhere in the
+   deck still use `.amber` / `.blue` as text colors — a chip round a whole
+   clause reads as a highlighter, not a swatch. */
+.reveal .contentchip,
+.reveal .formatchip {
+  display: inline-block;
+  padding: 0.02em 0.3em;
+  border-radius: 0.1em;
+  line-height: 1.1;
+}
+.reveal .contentchip { background-color: #edae49; color: #2e4057; }
+.reveal .formatchip  { background-color: #00798c; color: #FFFFFF; }
+
+/* `.turnsred` — entanglement figure slide 2 only. Click 3 recolours the
+   `content` block inside the SVG; this recolours the word `Content` in the
+   heading above it at the same moment, so the legend and the figure never
+   disagree. Used as `fragment custom`, so reveal leaves the chip visible at
+   rest and only toggles `.visible` — the colour change is ours, and the
+   heading never moves or reflows.
+
+   Specificity: `.reveal .contentchip.turnsred.visible` (0,3,1) beats
+   `.reveal .contentchip` (0,2,1), so it wins wherever it is in the file. */
+.reveal .contentchip.turnsred {
+  transition: background-color 300ms ease, color 300ms ease;
+}
+.reveal .contentchip.turnsred.visible {
+  background-color: #d1495b;
+  color: #FFFFFF;
+}
+
+/* ── THE SPINE: Control / Cost / Correct ────────────────────────────────────
+   Two inverse slides carry the running list of what Quarto affords, one word
+   per act, each arriving just before the act that earns it. Grey means "you
+   have already had this one", white means "this is next", so the room's eye is
+   always on the new word and the finished ones stay legible without competing.
+
+   #8d96a3 is minou's grey — the one role in the palette nothing else uses, and
+   "structural, inactive" is exactly its job. On the inverse card it is about
+   6:1, so it reads from the back of the room; white is 17:1, so the gap between
+   them is unmistakable. NOT a lower opacity on white: that would wash toward the
+   card's own color and read as a rendering artifact rather than a choice.
+
+   Two classes because the two slides do different work. `.earned` is static —
+   by the second ladder slide the convention is known, so the words are simply
+   grey at rest. `.dims` is the one that TEACHES it: `Control` starts white and
+   alone, and turns grey on the same `data-fragment-index` that brings `Cost`
+   in, so the handoff is one beat and you see it happen once.
+
+   `fragment custom` means reveal leaves the word visible at rest and only
+   toggles `.visible`, so the colour change is ours and the heading never moves
+   or reflows. Both rules target the SPAN; lexis paints the h1 white at
+   `.reveal .inverse h1`, and an inherited colour loses to any rule that matches
+   the element directly, so specificity is not in play here. */
+.reveal .earned { color: #8d96a3; }
+.reveal .dims { transition: color 400ms ease; }
+.reveal .dims.visible { color: #8d96a3; }
+
+/* ── SPECIMEN CARDS: `Quarto is checkable twice` ────────────────────────────
+   One card under each column, showing the kind of check that column claims.
+   Left is machine output, right is a diff a person reads, and the two grounds
+   are the split: a dark terminal card is recognisable as something a computer
+   printed from the back of the room, a light card as something you sit and
+   read. Same type size and line height in both, because the parallel is the
+   point.
+
+   They are `<pre>` elements in index.qmd rather than divs, and that is not a
+   style choice — pandoc parses markdown inside a `<div>`, which turned the
+   diff's `-` line into a bullet list and broke the column fence. `<pre>` is
+   raw. See the comment on that slide.
+
+   Everything here is an override of reveal's own `pre` rule (0.55em, a box
+   shadow, its own padding), so the two cards are sized against each other and
+   not against the theme's code blocks. If either card is too wide for its half,
+   `font-size` is the knob; lines never wrap, so the columns can't unbalance.
+
+   EVERY LINE IS ITS OWN `<span>`, and that is what makes the diff read. A row's
+   tint has to bleed to the card's edge, which an inline span can't do — it
+   paints only the width of its own text, which is what made the first version
+   look like a highlighter rather than a diff. So the spans are `display: block`
+   and carry the card's horizontal padding themselves, while the card keeps only
+   its vertical padding. The card is then `white-space: normal` so the newlines
+   BETWEEN those blocks are collapsed away instead of rendering as blank rows,
+   and each span is `white-space: pre` so the text inside it keeps its leading
+   spaces. Both properties are load-bearing; swapping either one doubles the
+   line count or eats the indents.
+
+   The diff is the real red/green convention, deliberately: it is an object the
+   room can read on sight, and that is worth more here than the deck's rule that
+   green means verdict — a `+` row is not going to be mistaken for the figure's
+   checkmark. The hues are still palette values (#d1495b red, #4A6D5A the green
+   ink variant); only the two pale row tints are new. Note that green reads as
+   "good" while the edit shown is a bad one — that is the joke, and the point:
+   green means ADDED, and only a person can tell you it shouldn't have been. */
+.reveal pre.specimen {
+  display: block;
+  width: 100%;
+  margin: 0.4em 0 0 0;
+  padding: 0.7em 0;
+  border-radius: 6px;
+  box-shadow: none;
+  font-size: 0.62em;
+  line-height: 1.6;
+  text-align: left;
+  white-space: normal;
+  word-wrap: normal;
+  overflow-x: auto;
+}
+.reveal pre.specimen > span {
+  display: block;
+  white-space: pre;
+  padding: 0 0.9em;
+}
+/* Both cards are light: the error message is the thing to read from the back of
+   the room, and red on navy was the worst contrast on the slide. Same chrome as
+   the diff card beside it, so the two columns read as one pair. */
+.reveal pre.errcard  { background: #FFFFFF; color: #2e4057;
+                       border: 1px solid #d8dbe0; }
+.reveal pre.diffcard { background: #f4f5f7; color: #2e4057;
+                       border: 1px solid #d8dbe0; }
+
+.reveal pre.errcard .sp-dim { color: #6c7684; }
+.reveal pre.errcard .sp-err { color: #d1495b; }
+
+.reveal pre.diffcard .sp-del { background: #fbe9eb; color: #d1495b; }
+.reveal pre.diffcard .sp-add { background: #e4efe9; color: #4A6D5A; }
+
+/* Word-level highlight inside a changed row, the way GitHub paints it: the row
+   carries the light tint, and the tokens that actually differ carry a darker one
+   on top. `.w` is a grandchild of the <pre>, so the `> span` block rule above
+   does not catch it and it stays inline, hugging just those characters. */
+.reveal pre.diffcard .sp-del .w { background: #f6c3c9; }
+.reveal pre.diffcard .sp-add .w { background: #bcdcc9; }
+
+/* The file tree on "To change one page, I open one file" takes the same specimen
+   chrome as the diff card beside it, so the two columns read as one pair rather
+   than as a code block next to a diff. The dimming is the argument: "fourteen
+   untouched" is not something a screenshot of an unchanged page can show, so the
+   only way to make it visible is to grey the files that were never opened. Grey
+   is the spine's #8d96a3 — it already means "not the thing you're looking at" —
+   and the one lit file is palette red, which already means "content that
+   changed." The root line stays navy: it's the site, not a file. */
+.reveal pre.treecard { background: #f4f5f7; color: #2e4057;
+                       border: 1px solid #d8dbe0; }
+.reveal pre.treecard .sp-dim { color: #8d96a3; }
+.reveal pre.treecard .sp-hit { color: #d1495b; font-weight: 700; }
+
+/* A whole-document diff needs more rows than the five-line cards this chrome was
+   built for. Both cards on a slide take this together — the columns must stay
+   the same type size, since the comparison is how hard the change is to find,
+   not how big the type is. */
+.reveal pre.specimen.compact { font-size: 0.4em; line-height: 1.45; }
+
+/* ── THE HIGHLIGHT MOVES: `The source is text` ──────────────────────────────
+   That slide used to be two cards side by side — a diff on the left, a
+   rendered-output card on the right — which made it look like two unrelated
+   claims. It is one claim twice: the SAME four lines of source are both a thing
+   you can diff and a thing that recomputes. So there is now one card, and what
+   changes between the two points is which line is lit.
+
+   At rest the card is a plain diff, which is the first point already made. On
+   click 2 the `-`/`+` rows step back to the spine grey (#8d96a3 — "you have had
+   this one") and the `r ev_sales` line lights instead. Row tint plus a darker
+   tint on the token that matters is the diff card's own idiom (`.sp-add` +
+   `.w`); this reuses it in yellow, because a computed value is CONTENT, and
+   yellow is a fill — #edae49 on the token with navy text, #f7e3ad washed across
+   the row behind it.
+
+   `fragment custom` means reveal leaves both rows visible at rest and only
+   toggles `.visible`, so the colour change is ours and nothing reflows.
+   Specificity: `.reveal pre.diffcard .sp-del.steps-back.visible` (0,4,1) beats
+   `.reveal pre.diffcard .sp-del` (0,3,1), so the step-back wins wherever it
+   sits in this file. */
+.reveal pre.diffcard .steps-back,
+.reveal pre.diffcard .steps-up,
+.reveal pre.diffcard .steps-back .w,
+.reveal pre.diffcard .steps-up .w {
+  transition: background-color 400ms ease, color 400ms ease;
+}
+.reveal pre.diffcard .sp-del.steps-back.visible,
+.reveal pre.diffcard .sp-add.steps-back.visible {
+  background: transparent;
+  color: #8d96a3;
+}
+.reveal pre.diffcard .sp-del.steps-back.visible .w,
+.reveal pre.diffcard .sp-add.steps-back.visible .w { background: transparent; }
+
+.reveal pre.diffcard .steps-up.visible    { background: #f7e3ad; }
+.reveal pre.diffcard .steps-up.visible .w { background: #edae49; }
+
+/* Colored image borders, tying each chip to the sheet it describes on the
+   "this layout / these sentences" slide. lexis ships .border/.whiteborder/etc.
+   but no color variants; these follow its own wrapper-div pattern, so they go
+   on a wrapping div — `::: {.col .blueborder}` — not in the image's attribute
+   block. Same fills as the chips, deliberately: the border is the chip's echo.
+   Wider than lexis's 6px because the yellow is light and needs the area to
+   read against a light slide; if it still looks faint when rendered, this
+   number is the knob. */
+.reveal .amberborder img { border: 10px solid #edae49; }
+.reveal .blueborder img  { border: 10px solid #00798c; }
+
+/* Entanglement figure, slide 2: the chain opens.
+   At rest the slide is byte-for-byte slide 1's picture — me -> agent ->
+   artifact. Click 1 inserts the .qmd between the agent and the artifact, which
+   means the chain has to get 280 units longer. It grows symmetrically so the
+   row stays centred: me+agent glide 140 left, the artifact glides 140 right,
+   and the .qmd fades into the gap they open.
+
+   140 = (950 - 670) / 2, i.e. half of what the .qmd and its extra arrow add to
+   the chain. Every arrow in the figure is 80 units now — slide 1's two and
+   slide 2's three — so there is no longer a special case here. Recompute if
+   any box width or arrow length in that row changes: with arrow length L,
+   shift = 75 + L. (The .qmd itself always lands at x=615 whatever L is, so the
+   data box, its arrow, and the purple arrow's landing point never move.)
+
+   `fragment custom` means reveal leaves these visible at rest and only toggles
+   `.visible`, so the transform is ours. UNLIKE the old `.lift` on slide 1,
+   these two rules are NOT optional: without them the boxes stay put and the
+   .qmd lands on top of the document. */
+.reveal svg g.openleft,
+.reveal svg g.openright {
+  transform: translateX(0);
+  transition: transform 500ms ease;
+}
+.reveal svg g.openleft.visible  { transform: translateX(-140px); }
+.reveal svg g.openright.visible { transform: translateX(140px); }
+
+/* `.canvashead` — `Each page is its own canvas`, the two headings that trade
+   places over svg/canvas.qmd.
+
+   The title and the `...all you need is code chunks!` chip are the same beat
+   as the figure's interior swap (all three are `data-fragment-index="1"`), and
+   they occupy the SAME place on the slide: one `.fade-out` going, one plain
+   `.fragment` arriving. Stacked in normal flow they would reserve two heading
+   slots and leave whichever one is hidden as a dead band -- ~124px of it,
+   which is the difference between a figure that fills the slide and one that
+   doesn't. A one-cell grid overlaps them instead, so the block is exactly one
+   heading tall and svg/canvas.qmd gets the rest.
+
+   `align-items: center` matters when the two headings are different heights:
+   it aligns their centres, so the cross-fade reads as one line changing rather
+   than two lines at different altitudes. They happen to be the same size today
+   (both `#`, the chip adding only its 0.02em padding) -- this is what keeps it
+   honest if one of them ever changes level.
+
+   ⚠️ BOTH HEADINGS ARE DIV-NESTED ON PURPOSE, never the slide's leading `# `.
+   Pandoc hoists a promoted slide's leading heading classes onto the <section>,
+   and a <section> carrying `.fragment` matches reveal's own
+   `.reveal .fragment:not(.custom) { opacity: 0 }` while never being collected
+   by reveal's per-slide fragment query -- the whole slide would go invisible
+   and stay that way. Inside a div the class is safe; lexis.lua's demote() then
+   rewrites each `#` into a `.h1` styled div, which is what every column
+   heading in this deck already is.
+
+   NOTE: nothing on this slide moves or resizes any more. An earlier cut had
+   the stack at half size at rest and grew it on the click (`.canvasgrow`),
+   with the title parked low and rising (`.canvasrise`, later `.canvasdrop`);
+   both are gone. The frame is constant and only the card's interior swaps. If
+   the growth is ever wanted back it needs a `fragment custom` group in the SVG
+   and a `transform-origin` that survives the viewBox-origin ambiguity -- see
+   svg/canvas.qmd's comment, which is why its origin is (0, 0). */
+.reveal .canvashead { display: grid; align-items: center; }
+.reveal .canvashead > * { grid-area: 1 / 1; }
+
+/* NOTE: there is deliberately no `.lift` rule here any more.
+   Entanglement figure slide 1 used to park run 1 low so it read as centred on
+   its own, then slide it up on click 1 to make room for run 2. Run 1
+   now renders in its final place from the start and rows 2 and 3 arrive under
+   it. Nothing on that slide moves except what the argument requires. If you
+   ever want the slide-up back, it needs BOTH the CSS below and the
+   `fragment custom lift` class on the run-1 group in index.qmd:
+
+     .reveal svg g.lift          { transform: translateY(178px);
+                                   transition: transform 500ms ease; }
+     .reveal svg g.lift.visible  { transform: translateY(0); }
+
+   178 = 353.5 (centre of the visible viewBox, y 77..630) - 175 (run 1's row),
+   in the SVG's own units — recompute it if that viewBox ever changes. */
+
+/* Tighten the gap under one slide's title. lexis sets that gap with
+   `.reveal .slides section > h1 { margin-bottom: var(--title-gap, 0.9em) }`, and
+   0.9em of a title-sized heading is ~80px -- which is the gap, not the 20px
+   heading margin it looks like. Don't fight it with a `margin-bottom` override:
+   lexis's selector is more specific and wins. Retune the custom property
+   instead, which is what it exists for.
+
+   Opt in per slide with `# Heading {.tightbelow}` -- pandoc hoists a leading
+   heading's classes onto the <section> too, so the class lands where this rule
+   needs it. lexis also ships `{{< tight >}}`, which is this at exactly 0. */
+.reveal .slides section.tightbelow { --title-gap: 0.25em; }
+
+/* Observable Inputs on the `ojs` slide, restyled to match the crosstalk slide's
+   control rail. Inputs.range and Inputs.select each render a <form> laid out as
+   a flex row: a fixed-width <label> gutter on the left, then the control. In a
+   narrow column that gutter eats most of the width and the two demos stop
+   looking like the same app.
+
+   Making the label a full-width flex item moves it above the control without
+   taking the form out of flex layout -- which matters, because Inputs.range
+   puts a slider and a number box on the same row and `display: block` would
+   stack those two as well.
+
+   Opt in with `:::: {.col .ojs-stack width="22%"}`. */
+.reveal .ojs-stack form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  max-width: 100%;
+}
+.reveal .ojs-stack form > label {
+  flex: 0 0 100%;
+  width: auto;
+  margin: 0 0 0.3em 0;
+  font-weight: 600;
+  color: #2e4057;
+}
+
+/* The mass slider, restyled to read like crosstalk's ionRangeSlider "shiny"
+   skin: an 8px #428bca bar filling from the left, on a grey track, with a grey
+   round handle (#dedede fill, #ababab border). WebKit has no progress
+   pseudo-element, so the filled portion is a gradient sized by the --fill
+   variable that the viewof cell updates on input; Firefox uses its native
+   ::-moz-range-progress instead. */
+.reveal .ojs-stack input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 8px;
+  border-radius: 8px;
+  background:
+    linear-gradient(#428bca, #428bca) 0 / var(--fill, 0%) 100% no-repeat,
+    #e1e4e9;
+  cursor: pointer;
+}
+.reveal .ojs-stack input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  margin-top: -6px;
+  border-radius: 50%;
+  background: #dedede;
+  border: 1px solid #ababab;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
+}
+.reveal .ojs-stack input[type="range"]::-moz-range-track {
+  height: 8px;
+  border-radius: 8px;
+  background: #e1e4e9;
+}
+.reveal .ojs-stack input[type="range"]::-moz-range-progress {
+  height: 8px;
+  border-radius: 8px;
+  background: #428bca;
+}
+.reveal .ojs-stack input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #dedede;
+  border: 1px solid #ababab;
+}
+/* The number read-out beside the slider, given the same tidy box as the list. */
+.reveal .ojs-stack input[type="number"] {
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 1px 4px;
+}
+
+/* The species list box: full width of the rail, and tall enough that all three
+   rows show without scrolling. Observable sizes a `multiple: 3` select by rows,
+   which the .font55 wrapper then shrinks. A native multi-select can't become
+   selectize pills, so the closest match to crosstalk's filter_select is a tidy
+   bordered white box with the selected rows painted in crosstalk's blue. */
+.reveal .ojs-stack form select[multiple] {
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 3px;
+  background: #fff;
+  outline: none;
+}
+.reveal .ojs-stack form select[multiple] option {
+  padding: 3px 6px;
+  border-radius: 3px;
+}
+/* Selected rows in crosstalk's #428bca. Chrome overrides the OS highlight on a
+   multi-select unless the colour is forced with a gradient and !important. */
+.reveal .ojs-stack form select[multiple] option:checked {
+  background: #428bca linear-gradient(0deg, #428bca 0%, #428bca 100%) !important;
+  color: #fff !important;
+}
+
+/* The two Plot panels on the `ojs` slide. Plot's root SVG is transparent, and
+   its `style` option did not reliably paint it white through Quarto's bundled
+   build, so the white lives on the column that holds it instead. That also
+   gives the panel a little padding, which plotly's own paper does for free on
+   the crosstalk slide -- the point of both slides being that they are the same
+   app with different machinery, so they have to look like it.
+
+   Opt in with `::: {.col .ojs-panel width="39%"}`. */
+.reveal .ojs-panel {
+  background: #FFFFFF;
+  border-radius: 4px;
+  padding: 6px 8px;
+}
+.reveal .ojs-panel svg { background: #FFFFFF; }
+
+/* ── THE CANVAS BANNER ──────────────────────────────────────────────────────
+   The four "things to put in the canvas" slides share a running label. As grey
+   text it read as a second title competing with the real one; as a band it
+   reads as chrome — the same strip on all four, so the room knows it is the
+   frame around the demo and not the point of the slide.
+
+   Navy is the deck's INK color: every stroke and label in the figures is
+   #2e4057, so a navy band is the one dark value already in the vocabulary and
+   it can't be mistaken for content/format/changed. White on it is 11:1.
+
+   Full-bleed by cancelling the section's own padding — lexis sets
+   `padding: 45px 90px 60px` on every slide (lexis.scss), and its print rule
+   restates the same three numbers, so this bleeds correctly on export too. If
+   that padding is ever retuned, these two negative margins follow it.
+
+   Bottom margin is in rem, not em: at 0.75em the band's own em is small, and
+   what has to match is the ~0.9em gap lexis puts under a real slide title, so
+   the heading below sits where it did when this was an `##`. */
+.reveal section > .canvasbanner {
+  margin: -45px -90px 1.6rem;
+  padding: 0.5em 90px;
+  background-color: #EDAE48;
+  color: #2E4057;
+  font-size: 0.75em;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+.reveal section > .canvasbanner p { margin: 0; }
+
+/* ── THE ROBUSTNESS WORKFLOW SLIDE ──────────────────────────────────────────
+   Two columns: the five-step stack on the left, and on the right the one piece
+   of the EV Sales document that the lit step actually touches.
+
+   `.robustness` has exactly TWO direct children, `.stack` and `.demo`. It is a
+   2-column grid, so every extra direct child gets auto-placed into the next
+   free cell — putting the individual beats in here as siblings scrambles the
+   layout. The beats live inside the two columns.
+
+   The stack is centred in its column; the demo is pinned to the TOP of its
+   own. The demo is the shorter of the two and its height changes with the beat
+   (a two-line card, a seven-line diff), so centring it made the claim drift up
+   and down the slide from click to click. Anchored at the top, the claim and
+   the top edge of the card stay put and only the card's bottom moves.
+
+   No `height` on the grid. Reveal scales a fixed 1600x900 stage, so a `vh`
+   height measures the browser WINDOW, not the card, and the grid drifts out of
+   the slide as the window changes. The two regions that gain and lose content
+   reserve their room in slide px instead (`.panels`, `.claims`), which is the
+   same coordinate system the stage is in.
+
+   The right column has NO frame. The cards inside it already carry the deck's
+   `pre.specimen` chrome (see above), so a box around them was a second border
+   around a bordered thing. Only `.step` is drawn as a box here, because a
+   workflow step is the one thing on this slide that is not a document.
+
+   Greys (#ccc/#777/#f7f7f7) are neutral chrome — the step boxes are furniture.
+   The one value that carries meaning is the deck's navy ink on the lit step. */
+.reveal .robustness {
+  display: grid;
+  grid-template-columns: 34% 66%;
+  gap: 2rem;
+  align-items: center;
+}
+.reveal .robustness .demo { align-self: start; }
+
+/* Fira Sans Condensed is lexis's heading face (`$font-header`), already loaded
+   by the theme — the stack is a set of labels, not prose, so it belongs in the
+   heading font rather than the body Inter. Repeated literally because
+   custom.css is plain CSS and cannot see the Sass variable; keep it in step
+   with `$font-header` in lexis.scss if that ever changes.
+
+   Padding is symmetric and sizes are in `em`, so a step that wraps to two lines
+   gets the same space above and below its text as a one-liner does — the box
+   just grows. That is what makes wrapping a non-event here: nothing has to be
+   hand-tuned per label. `text-wrap: balance` splits a wrapped label into two
+   even lines instead of a long one and an orphan (ignored where unsupported).
+
+   The gaps are in `em` too, not `rem`: `rem` resolves against the browser root,
+   which has nothing to do with the deck's 34px stage type, so a step's type and
+   the air around it would drift apart the moment either was retuned. */
+.reveal .robustness .stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25em;
+}
+.reveal .robustness .step {
+  border: 2px solid #d7dade;
+  border-radius: 10px;
+  padding: 0.55em 0.7em;
+  background: #e2e5e8;
+  color: #6c7684;
+  font-family: "Fira Sans Condensed", Tahoma, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 0.85em;
+  line-height: 1.2;
+  /* Weight is the SAME in both states, on purpose. Bolding only the current
+     step widens its text, which can push a label onto a second line and make
+     the whole stack jump as you click through. The state change below is the
+     signal; the weight must not move. */
+  font-weight: 600;
+  transition: background-color 250ms ease, color 250ms ease, border-color 250ms ease;
+}
+/* A fenced div wraps its content in a `<p>`, so the icon and the label are
+   siblings inside one paragraph, not two boxes. Making that paragraph the flex
+   container splits them: the `.ico` span is one flex item and the label text
+   becomes an anonymous one beside it. A previous attempt used a hanging indent
+   instead (`padding-left` plus a negative `text-indent`) and the mark rendered
+   OUTSIDE the rounded box — a negative indent is not clipped by padding.
+   Flex cannot overflow this way, and it also keeps a wrapped label's second
+   line aligned under its first rather than under the icon.
+
+   `align-items: baseline` sits the mark on the label's first baseline, which is
+   what stops a two-line step from floating its icon down to the middle.
+
+   The mark inherits `currentColor`, so it dims and lights with the step and
+   never needs a colour of its own. Brand colours here would compete with the
+   yellow, red and green doing real work in the cards on the right, and five
+   competing hues down the left edge is exactly the busyness the icons are
+   supposed to avoid. */
+.reveal .robustness .step p {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45em;
+  margin: 0;
+  text-align: left;
+}
+.reveal .robustness .step .ico {
+  flex: 0 0 1.5em;
+  text-align: center;
+}
+/* The `quarto` shortcode hardcodes Quarto's brand blue as an inline style and
+   rewrites any `color:` passed to it, so the shortcode can never be recoloured
+   from the document. The slide calls the generic iconify shortcode with the
+   same icon name instead, which ships no colour and inherits. This is the
+   backstop in case that ever changes — an inline style needs `!important` to
+   beat it. */
+.reveal .robustness .step .ico iconify-icon {
+  color: inherit !important;
+  vertical-align: -0.1em;
+}
+
+/* Reveal marks the fragment(s) at the current index `.current-fragment`, so the
+   lit box follows the clicks with no duplicated markup.
+
+   Both states are LIGHT. An earlier version made the resting blocks navy, and
+   five dark slabs down the left edge pulled the eye away from the card on the
+   right, which is where the argument actually is. So the stack sits a half-step
+   BELOW the slide's own background (#e2e5e8 on a light grey slide) with muted
+   type, and the current step rises to a white card with the deck's navy ink and
+   a navy border. The signal is the same inversion as before — figure and ground
+   swap — but it now happens between two light values, so the whole left column
+   stays quiet.
+
+   Contrast: #6c7684 on #e2e5e8 is about 4.4:1, enough to read at this size and
+   plainly receded; navy on white is 11:1. Border and weight hold still in both
+   states, so the box cannot change size when it flips. */
+.reveal .robustness .step.current-fragment {
+  background: #FFFFFF;
+  border-color: #2e4057;
+  color: #2e4057;
+}
+.reveal .robustness .arrow {
+  text-align: center;
+  color: #777;
+  /* Five steps, four arrows and eight gaps have to clear the slide's lower
+     edge with a two-line step in the stack. The arrow is the cheapest place to
+     buy that room back, so it is set tight on purpose. */
+  line-height: 0.8;
+}
+
+.reveal .robustness .demo {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+/* The claim sits ABOVE the card: it is the sentence John says out loud, so it
+   reads as the point being made, not as a caption on the artifact below it.
+
+   `.panels` and `.claims` each hold every beat's content stacked in ONE cell —
+   the same trick as reveal's `.r-stack` — so the card never moves as the beats
+   swap. `current-visible` hides with `visibility`, which keeps a box in flow,
+   but only the tallest beat would set the height and an all-hidden region would
+   collapse, so both reserve a floor: the five-line card and the one-line claim.
+   Retune these together with the `font-size` below if that changes. */
+.reveal .robustness .panels,
+.reveal .robustness .claims {
+  display: grid;
+  grid-template-rows: 100%;
+}
+.reveal .robustness .panels { min-height: 260px; }
+.reveal .robustness .claims { min-height: 70px; }
+.reveal .robustness .panels > *,
+.reveal .robustness .claims > * {
+  grid-area: 1/1;
+  margin: 0;
+}
+/* `pre.specimen` is 0.62em, sized for a card sitting inside a `.font140`
+   column. These cards are not in one, so the multiplier is folded in here
+   (0.62 x 1.4) — same rendered size as the diff card on "The source is text",
+   which is the point: the room should recognise it as the same object. */
+.reveal .robustness .panels pre.specimen { font-size: 0.87em; }
+.reveal .robustness .claim { font-size: 1.1em; }

@@ -1,0 +1,104 @@
+<!--
+  THE CANVAS — `Each page is its own canvas`, Act 3 (Modularity).
+
+  ONE CLICK, AND ONLY THE INSIDE OF THE CARD MOVES. The stack is the same size
+  throughout: at rest it is qmd-stack.qmd's `.qmd x 15` — the object the room
+  has already seen three times — with its teal `yaml` band and its yellow
+  `content` band, drawn big. Click 1 swaps the front card's interior and
+  nothing else: the two source bands go, and a PAGE arrives in their place —
+  chrome dots, the sidebar Quarto wrote, and one yellow code chunk in the body.
+
+  Holding the size fixed is the point. An earlier cut grew the stack on the
+  click and it pulled the eye to the wrong thing; the claim is not that the
+  page gets bigger, it is that the card you write in and the page you get are
+  the same rectangle, and all you put in it is chunks. Frame constant, contents
+  swap.
+
+  THE HEADING TURNS OVER ON THE SAME BEAT. `Each page is its own canvas` fades
+  out and the `...all you need is code chunks!` chip fades in, in the same
+  place — `.canvashead` in custom.css grids the two into one cell so they
+  overlap instead of stacking, which is what keeps this figure's slot as tall
+  as it is. Both are `data-fragment-index="1"`, so heading and card turn over
+  together.
+
+  COORDINATES ARE qmd-stack's x2.1 (card 190x124 -> 400x260, the 8-unit fan
+  -> 17, stroke 2.5 -> 5), then offset by (-80, -18) so the viewBox origin is
+  (0, 0). ⚠️ At 72vh the card renders ~700px wide against qmd-stack.qmd's
+  ~305px, so this is emphatically not that figure at that scale — it is the
+  same drawing enlarged to carry a slide on its own.
+
+  "0 0 440 372": ink is x 20..420 (centre 220) and y ~15..356 (centre 185.5) —
+  the top edge is the 44px label's ascender at y=47, not the back card at y=62.
+  Box centre is (220, 186). Keep the ink centred on it, and keep the origin at
+  (0, 0), if a CSS transform is ever put back on a group in here: browsers
+  disagree about whether `transform-origin` percentages resolve against the
+  viewBox's min-x/min-y or against (0, 0), and a non-zero origin makes the two
+  readings pivot around different points.
+
+  `display: block` on the <svg> is deliberate — inline, it drags a ~10px
+  baseline descender along underneath and the bottom margin stops being
+  predictable.
+
+  Yellow is a FILL only — the content band, then the code chunk that replaces
+  it. Text on yellow is navy, text on teal is white. Backticks are &#96; so the
+  ```{=html} fence can never be in doubt.
+-->
+
+```{=html}
+<svg viewBox="0 0 440 372" width="70%" style="display:block;margin:1.5em auto 0;max-height:50vh;"
+     xmlns="http://www.w3.org/2000/svg"
+     font-family="'Fira Sans Condensed', Tahoma, sans-serif">
+
+  <text x="220" y="47" font-size="44" text-anchor="middle"
+        fill="#2e4057" font-family="SFMono-Regular, Menlo, monospace">.qmd &#215; 15</text>
+
+  <!-- Back cards first, flush right at 420, fanning up-left in 17s. -->
+  <rect x="54" y="62" width="366" height="260" rx="13"
+        fill="#FFFFFF" stroke="#2e4057" stroke-width="5"/>
+  <rect x="37" y="79" width="383" height="260" rx="13"
+        fill="#FFFFFF" stroke="#2e4057" stroke-width="5"/>
+  <rect x="20" y="96" width="400" height="260" rx="13"
+        fill="#FFFFFF" stroke="#2e4057" stroke-width="5"/>
+
+  <!-- ── AT REST: the source bands, qmd-stack's exactly ──────────────── -->
+  <g class="fragment fade-out" data-fragment-index="1">
+    <rect x="54" y="130" width="332" height="76" fill="#00798c"/>
+    <text x="220" y="183" font-size="42" text-anchor="middle"
+          fill="#FFFFFF" font-family="SFMono-Regular, Menlo, monospace">yaml</text>
+    <rect x="54" y="230" width="332" height="92" fill="#edae49"/>
+    <text x="220" y="291" font-size="42" text-anchor="middle"
+          fill="#2e4057" font-family="SFMono-Regular, Menlo, monospace">content</text>
+  </g>
+
+  <!-- ── CLICK 1: the same rectangle, now a page ──────────────────────
+       Occupies the bands' exact footprint (54,130 to 386,322) so the swap
+       reads as one thing becoming another rather than two things trading
+       places. -->
+  <g class="fragment" data-fragment-index="1">
+    <rect x="54" y="130" width="332" height="192" rx="8"
+          fill="#FFFFFF" stroke="#2e4057" stroke-width="3"/>
+    <path d="M 54 166 L 386 166" stroke="#2e4057" stroke-width="2.5"/>
+    <circle cx="78" cy="148" r="6" fill="#2e4057"/>
+    <circle cx="100" cy="148" r="6" fill="#2e4057"/>
+    <circle cx="122" cy="148" r="6" fill="#2e4057"/>
+
+    <!-- The sidebar is _quarto.yml's, the same one the two slides before this
+         put on screen as yaml. You did not write it. -->
+    <path d="M 152 166 L 152 322" stroke="#2e4057" stroke-width="2.5"/>
+    <rect x="71" y="184" width="58" height="8" fill="#2e4057"/>
+    <rect x="71" y="203" width="58" height="8" fill="#2e4057"/>
+    <rect x="71" y="222" width="58" height="8" fill="#2e4057"/>
+    <rect x="71" y="241" width="58" height="8" fill="#2e4057"/>
+
+    <!-- The one thing you DID write. Centred in the body at (269, 244). -->
+    <rect x="171" y="190" width="196" height="108" rx="4" fill="#edae49"/>
+    <text x="187" y="220" font-size="22" fill="#2e4057"
+          font-family="SFMono-Regular, Menlo, monospace">&#96;&#96;&#96;{r}</text>
+    <text x="187" y="248" font-size="22" fill="#2e4057"
+          font-family="SFMono-Regular, Menlo, monospace">plot(df)</text>
+    <text x="187" y="276" font-size="22" fill="#2e4057"
+          font-family="SFMono-Regular, Menlo, monospace">&#96;&#96;&#96;</text>
+  </g>
+
+</svg>
+```
