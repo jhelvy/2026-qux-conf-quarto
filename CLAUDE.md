@@ -1,11 +1,12 @@
 # CLAUDE.md
 
 Slide deck for a **20-minute Quant UX Conference 2026 talk**: "The Unreasonable
-Effectiveness of Quarto." Canonical title/abstract in `abstract.md` (already
+Effectiveness of Quarto." Canonical title/abstract in `README.md` (already
 published). No live demos — everything pre-rendered, screenshotted, or embedded.
 
-First of four talks in a "Dashboards" session whose real subject is **data
-products**. Use that phrase; it's the session's shared vocabulary.
+Presented standalone, not in a dashboards-specific session — Quarto is framed
+generally; the dashboard is used as one example of a more complex artifact,
+broadened near the end to other artifact types.
 
 ## Rules for agents
 
@@ -22,7 +23,7 @@ products**. Use that phrase; it's the session's shared vocabulary.
 ## The thesis: two parts
 
 > **Quarto as an abstraction layer that separates *content* from *format* — and why that matters for working with AI agents.**
-> **With Quarto and AI, you can build incredible dashboards (and build them in an efficient way that ensures correctness).**
+> **With Quarto and AI, you can build incredible artifacts — dashboards among them — in an efficient way that ensures correctness.**
 
 - **Entanglement is operational, never metaphorical: the content has no
   address.** No file, no line, no cell *is* a given sentence — it's smeared
@@ -58,7 +59,13 @@ products**. Use that phrase; it's the session's shared vocabulary.
 - `data/token_results.csv` — verbatim copy of the blog post's data. Numbers on
   the token slide are computed from it. Change the CSV and re-run; never
   hand-edit the PNG.
-- `abstract.md` — canonical title/abstract/bio.
+- `images/quarto-example-html.qmd` / `images/quarto-example-pdf.qmd` — the toy
+  example on the "what is Quarto" slides, hand-copied into the fenced blocks
+  in `index.qmd` (keep them in sync). `images/quarto-example-html.html` /
+  `images/quarto-example-pdf.pdf` are their rendered output, and
+  `images/quarto-example-html.png` / `images/quarto-example-pdf.png` are the
+  screenshots of that output actually shown on the slides.
+- `README.md` — canonical title/abstract/bio.
 
 ## The palette
 

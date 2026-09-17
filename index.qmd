@@ -155,6 +155,133 @@ This is a dashboard session, but we are starting with a handwriting worksheet. T
 
 ---
 
+{{< bg-color "#2e4057" >}}
+{{< inverse >}}
+{{< center >}}
+
+`r sp(6)`
+
+::: {.col width="10%"}
+:::
+
+::: {.col width="30%"}
+## {{< quarto size=6x >}}
+:::
+
+::: {.col width="60%"}
+`r sp(3.9)`
+
+# So what *is* Quarto?
+
+:::
+
+---
+
+{{< center >}}
+{{< middle >}}
+
+# Quarto is a publishing system
+
+![](images/quarto-process.png){fig-align="center" width=100%}
+
+---
+
+# [Example `.qmd` file]{.center}
+
+:::: {.col width="50%" .font70}
+````{.markdown code-line-numbers="1-4|6-18"}
+---
+format: html
+title: "HTML Page with R Code"
+---
+
+# Hello, World!
+
+This is a simple **HTML** page with *R* code.
+
+```{{r}}
+library(ggplot2)
+
+df <- data.frame(x = rnorm(100))
+ggplot(df, aes(x = x)) +
+  geom_histogram()
+```
+````
+::::
+
+:::: {.col width="50%" valign="middle"}
+[Format]{.formatchip .font120}
+
+What it *becomes*
+
+`r sp(2)`
+
+[Content]{.contentchip .font120}
+
+What it *says*
+::::
+
+---
+
+# [**Rendered**: Markdown + `R code` chunks]{.center}
+
+:::: {.col width="50%" .font70}
+````{.markdown}
+---
+format: html
+title: "HTML Page with R Code"
+---
+
+# Hello, World!
+
+This is a simple **HTML** page with *R* code.
+
+```{{r}}
+library(ggplot2)
+
+df <- data.frame(x = rnorm(100))
+ggplot(df, aes(x = x)) +
+  geom_histogram()
+```
+````
+::::
+
+:::: {.col width="50%"}
+![](images/quarto-r-html.png){fig-align="center" height="700"}
+::::
+
+---
+
+# [**Rendered**: Markdown + `Python code` chunks]{.center}
+
+:::: {.col width="50%" .font70}
+````{.markdown}
+---
+format: pdf
+title: "PDF File with Python Code"
+---
+
+# Hello, World!
+
+This is a simple **PDF** file with *Python* code.
+
+```{{python}}
+import matplotlib.pyplot as plt
+import numpy as np
+
+data = np.random.normal(0, 1, 100)
+plt.hist(data)
+plt.show()
+```
+````
+::::
+
+:::: {.col width="50%"}
+![](images/quarto-python-pdf.png){fig-align="center" height="700"}
+::::
+
+---
+
 {{< center >}}
 {{< middle >}}
 
@@ -1186,6 +1313,30 @@ The stack on the left is the workflow. On the right, each click shows what that 
 
 # [Correctness]{.font150}
 :::
+
+---
+
+# [Not just dashboards]{.center}
+
+::: {.col width="33%"}
+### [Reports & manuscripts]{.formatchip}
+
+Citations, cross-refs — the apparatus of academic writing
+:::
+
+::: {.col width="33%"}
+### [One template, every participant]{.formatchip}
+
+Parameterized reports, fanned out per cohort or condition
+:::
+
+::: {.col width="33%"}
+### [This talk]{.formatchip}
+
+A `lexis-revealjs` `.qmd`, rendered
+:::
+
+[Same architecture, whatever the audience needs to trust the numbers.]{.center .font70}
 
 ---
 
