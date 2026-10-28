@@ -60,7 +60,7 @@ sp <- function(gap = 2, unit = "em") {
 
 [{{< meta author >}}]{.large}
 
-[posit::conf(2026)<br>Houston, TX]{.font120}
+[2026 Quant UX Conference]{.font120}
 
 ---
 
