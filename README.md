@@ -1,5 +1,7 @@
 Slides for my talk at Quant UX Conf 2026
 
+October 29, 2026
+
 # Title
 
 The Unreasonable Effectiveness of Quarto
